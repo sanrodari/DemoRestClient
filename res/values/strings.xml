@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DemoRestClient</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="songs">Canciones</string>
+    <string name="search_song">Buscar Canción</string>
+    <string name="create_song">Crear canción</string>
+    <string name="title_activity_list_songs">ListSongs</string>
+    <string name="title_activity_search_song">SearchSong</string>
+    <string name="song_name">Nombre de la cancion</string>
+    <string name="title_activity_create_song">CreateSong</string>
+    <string name="name">Nombre</string>
+    <string name="url">URL</string>
+    <string name="song_id">ID de la canción</string>
+
+</resources>

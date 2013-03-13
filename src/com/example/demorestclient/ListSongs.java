@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -72,8 +71,9 @@ public class ListSongs extends Activity {
 				.connectTimeout(4000)
 				.readTimeout   (4000);
 			
-			String response = httpRequest.body();
 			try {
+				String response = httpRequest.body();
+				
 				JSONArray jsonArray = new JSONArray(response);
 				
 				List<Song> songs = new ArrayList<Song>();
@@ -88,7 +88,7 @@ public class ListSongs extends Activity {
 				
 				
 				return songs;
-			} catch (JSONException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
 			}

@@ -3,7 +3,6 @@ package com.example.demorestclient;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -17,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.kevinsawicki.http.HttpRequest;
-import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
 
 public class SearchSong extends Activity {
 	
@@ -38,34 +36,25 @@ public class SearchSong extends Activity {
 
 		@Override
 		protected Song doInBackground(String... params) {
-			if(params.length > 0) {
-				String id = params[0];
+			String id = params[0];
+			
+			HttpRequest httpRequest = 
+				HttpRequest.get("http://android-backend.pagodabox.com/songs/" + id)
+				.connectTimeout(4000)
+				.readTimeout   (4000);
+			
+			String response;
+			try {
+				response = httpRequest.body();
 				
-				HttpRequest httpRequest = 
-					HttpRequest.get("http://android-backend.pagodabox.com/songs/" + id)
-					.connectTimeout(4000)
-					.readTimeout   (4000);
+				JSONObject jsonObject = new JSONObject(response);
+				Song song = new Song();
+				song.setName(jsonObject.getString("name"));
+				song.setUrl (jsonObject.getString("url"));
 				
-				String response;
-				try {
-					response = httpRequest.body();
-				} catch (HttpRequestException e1) {
-					e1.printStackTrace();
-					return null;
-				}
-				try {
-					JSONObject jsonObject = new JSONObject(response);
-					Song song = new Song();
-					song.setName(jsonObject.getString("name"));
-					song.setUrl (jsonObject.getString("url"));
-					
-					return song;
-				} catch (JSONException e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-			else {
+				return song;
+			} catch (Exception e) {
+				e.printStackTrace();
 				return null;
 			}
 		}

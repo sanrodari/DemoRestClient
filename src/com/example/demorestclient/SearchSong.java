@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.demorestclient.utilities.HttpRequestUtility;
 import com.github.kevinsawicki.http.HttpRequest;
 
 public class SearchSong extends Activity {
@@ -38,21 +39,24 @@ public class SearchSong extends Activity {
 		protected Song doInBackground(String... params) {
 			String id = params[0];
 			
-			HttpRequest httpRequest = 
-				HttpRequest.get("http://android-backend.pagodabox.com/songs/" + id)
-				.connectTimeout(4000)
-				.readTimeout   (4000);
+			HttpRequest httpRequest = HttpRequestUtility
+				.get("/songs/" + id);
 			
 			String response;
 			try {
 				response = httpRequest.body();
 				
 				JSONObject jsonObject = new JSONObject(response);
-				Song song = new Song();
-				song.setName(jsonObject.getString("name"));
-				song.setUrl (jsonObject.getString("url"));
+				if(jsonObject.has("name")) {
+					Song song = new Song();
+					song.setName(jsonObject.getString("name"));
+					song.setUrl (jsonObject.getString("url"));
+					return song;
+				}
+				else {
+					return null;
+				}
 				
-				return song;
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
@@ -65,6 +69,9 @@ public class SearchSong extends Activity {
 				song = result;
 				TextView textViewName = (TextView) findViewById(R.id.textViewName);
 				textViewName.setText(result.getName());
+			}
+			else {
+				Toast.makeText(SearchSong.this, "No se encuentró.", Toast.LENGTH_LONG).show();
 			}
 		}
 		

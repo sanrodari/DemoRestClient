@@ -1,7 +1,5 @@
 package com.example.demorestclient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,20 +8,21 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.demorestclient.utilities.HttpRequestUtility;
 import com.github.kevinsawicki.http.HttpRequest;
 
 public class ListSongs extends Activity {
 
 	private ListView listView;
+	private AsyncTask<Void, Void, List<Song>> execute;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,38 +37,26 @@ public class ListSongs extends Activity {
 				Object selectedItem = parent.getAdapter().getItem(position);
 				if(selectedItem != null) {
 					Song song = (Song) selectedItem;
-					
-					try {
-						new URL(song.getUrl());
-						
-						Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-								Uri.parse(song.getUrl()));
-							
-							startActivity(browserIntent);
-					} catch (MalformedURLException e) {
-						e.printStackTrace();
-						
-						Toast.makeText(ListSongs.this, "Url mal formada", Toast.LENGTH_LONG).show();
-					}
+		
+					Intent intent = new Intent(ListSongs.this, SongActivity.class);
+					intent.putExtra("id", song.getId());
+					startActivity(intent);
 				}
 				
 			}
 			
 		});
 		
-		new ListSongsTask().execute();
+		execute = new ListSongsTask().execute();
 	}
-
 	
 	private class ListSongsTask extends AsyncTask<Void, Void, List<Song>> {
 
 		@Override
 		protected List<Song> doInBackground(Void... params) {
 				
-			HttpRequest httpRequest = 
-				HttpRequest.get("http://android-backend.pagodabox.com/songs/")
-				.connectTimeout(4000)
-				.readTimeout   (4000);
+			HttpRequest httpRequest = HttpRequestUtility
+				.get("/songs/");
 			
 			try {
 				String response = httpRequest.body();
@@ -82,6 +69,7 @@ public class ListSongs extends Activity {
 					Song song = new Song();
 					song.setName(jsonObject.getString("name"));
 					song.setUrl (jsonObject.getString("url"));
+					song.setId  (jsonObject.getString("id"));
 					
 					songs.add(song);
 				}
@@ -104,6 +92,15 @@ public class ListSongs extends Activity {
 			}
 		}
 		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Status status = execute.getStatus();
+		if(status == Status.FINISHED) {
+			new ListSongsTask().execute();
+		}
 	}
 	
 }

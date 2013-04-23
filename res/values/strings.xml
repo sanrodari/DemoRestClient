@@ -14,5 +14,21 @@
     <string name="name">Nombre</string>
     <string name="url">URL</string>
     <string name="song_id">ID de la canción</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Inicia sesión</string>
+    <string name="register">Regístrate</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="change_password">Cambiar contraseña</string>
+    <string name="current_password">Contraseña actual</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="password_confirm">Confirmación</string>
+    <string name="change">Cambiar</string>
+    <string name="profile">Perfil</string>
+    <string name="title_activity_song">SongActivity</string>
+    <string name="song">Canción</string>
+    <string name="change_song">Modificar canción</string>
+    <string name="close_session">Cerrar sesión</string>
 
 </resources>

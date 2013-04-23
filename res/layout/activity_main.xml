@@ -4,34 +4,48 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <Button
-        android:id="@+id/button1"
-        android:onClick="listSongs"
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:hint="@string/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="104dp"
-        android:text="@string/songs" />
+        android:layout_marginTop="79dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/button1"
+        android:onClick="login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextPassword"
+        android:layout_below="@+id/editTextPassword"
+        android:layout_marginTop="82dp"
+        android:text="@string/login" />
 
     <Button
         android:id="@+id/button2"
-        android:onClick="searchSong"
+        android:onClick="register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="54dp"
-        android:text="@string/search_song" />
-
-    <Button
-        android:id="@+id/button3"
-        android:onClick="createSong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:layout_centerHorizontal="true"
-        android:layout_below="@+id/button2"
-        android:layout_marginTop="33dp"
-        android:text="@string/create_song" />
+        android:layout_alignBaseline="@+id/button1"
+        android:layout_alignBottom="@+id/button1"
+        android:layout_alignRight="@+id/editTextPassword"
+        android:text="@string/register" />
 
 </RelativeLayout>

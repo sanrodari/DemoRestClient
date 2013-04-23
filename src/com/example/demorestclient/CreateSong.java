@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.demorestclient.utilities.HttpRequestUtility;
 import com.github.kevinsawicki.http.HttpRequest;
 
 public class CreateSong extends Activity {
@@ -46,14 +47,13 @@ public class CreateSong extends Activity {
 			form.put("name", name);
 			
 			try {
-				HttpRequest httpRequest =
-					HttpRequest.post("http://android-backend.pagodabox.com/songs/")
-					.form(form)
-					.connectTimeout(4000)
-					.readTimeout   (4000);
+				HttpRequest httpRequest = HttpRequestUtility
+					.post("/songs/")
+					.form(form);
 				
 				String body = httpRequest.body();
-			
+				System.out.println(body);
+				
 				JSONObject jsonObject = new JSONObject(body);
 				if(jsonObject.has("id")) {
 					return jsonObject.getString("id");
